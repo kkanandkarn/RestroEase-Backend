@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bill</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 0;
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #f0f0f0;
+        }
+        .bill-wrapper {
+            width: 80mm;
+            padding: 10px;
+            background-color: white;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 10px;
+            border-bottom: 3px solid black;
+        }
+        .header h3 {
+            font-weight: bold;
+        }
+        .header img {
+            width: 100px;
+            height: 100px;
+        }
+        .customer-details {
+            text-align: left;
+            font-size: 14px;
+            border-bottom: 3px solid black;
+        }
+        .customer-details span {
+            font-weight: bold;
+        }
+        .table-header {
+            font-size: 14px;
+            border-bottom: 3px solid black;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        /* .table-header-left {
+            display: flex;
+            flex-wrap: wrap;
+        } */
+        .table-header-left {
+    display: flex;
+    flex-wrap: wrap;
+    word-wrap: break-word; /* Ensure long words break and wrap to the next line */
+    word-break: break-word; /* For compatibility with long unbreakable words */
+    max-width: 100%; /* Ensure it stays within the container's width */
+}
+        .table-header-right {
+            display: flex;
+            justify-content: space-evenly;
+            align-items: center;
+            gap: 14px;
+        }
+        .table-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .table-items {
+            font-size: 14px;
+            border-bottom: 2px solid black;
+        }
+        .sub-total {
+            font-size: 14px;
+            text-align: right;
+            border-bottom: 2px solid black;
+        }
+        .sub-total span {
+            font-weight: bold;
+        }
+        .taxes {
+            font-size: 14px;
+            border-bottom: 2px solid black;
+        }
+        .tax {
+            display: flex;
+            justify-content: right;
+            gap: 8px;
+        }
+        .tax-name {
+            font-weight: bold;
+        }
+        .grand-total {
+            font-size: 20px;
+            text-align: right;
+            border-bottom: 2px solid black;
+            color: #e91e63;
+            font-weight: bold;
+        }
+        .footer {
+            font-size: 14px;
+            font-weight: 600;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="bill-wrapper">
+        <div class="header">
+            <img src="<%= tenantLogo %>" alt="Logo">
+            <h3><%= tenantName %></h3>
+        </div>
+        <div class="customer-details">
+            <p><span>Name: </span><%= customerName %></p>
+            <p><span>Contact: </span><%= customerContact %></p>
+        </div>
+        <div class="customer-details">
+            <p><span>BillId: </span><%= billId %></p>
+            <p><span>Date: </span><%= date %></p>
+        </div>
+        <div class="table-header">
+            <div class="table-header-left">Item</div>
+            <div class="table-header-right">
+                <p>Qty</p>
+                <p>Price</p>
+                <p>Total</p>
+            </div>
+        </div>
+        <div class="table-items">
+            <% products.forEach(function(item, index) { %>
+                <div class="table-item">
+                    <div class="table-header-left"><%= index + 1 %>. <%= item.productName %></div>
+                    <div class="table-header-right">
+                        <p><%= item.quantity %></p>
+                        <p><%= item.price %></p>
+                        <p><%= item.quantity * item.price %></p>
+                    </div>
+                </div>
+            <% }); %>
+        </div>
+        <div class="sub-total">
+            <p><span>Sub Total: </span><%= subTotal %></p>
+        </div>
+        <div class="taxes">
+            <div class="tax">
+                <p class="tax-name">CGST</p>
+                <p><%= cgstPercentage %></p>
+                <p><%= cgstAmount %></p>
+            </div>
+            <div class="tax">
+                <p class="tax-name">SGST</p>
+                <p><%= sgstPercentage %></p>
+                <p><%= sgstAmount %></p>
+            </div>      
+        </div>
+        <div class="sub-total">
+            <p><span>Round Off: </span> <%= isRoundPositive ? '+' : '−' %><%= roundOff %></p>
+        </div>
+        <div class="grand-total">
+            <p>Grand Total: <%= totalAmount %></p>
+        </div>
+        <div class="footer">
+            <p>Thank you for Visiting us.</p>
+        </div>
+    </div>
+</body>
+</html>

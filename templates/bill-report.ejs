@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bill PDF</title>
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      margin: 0;
+      padding: 0;
+      color: #333;
+      font-size: 12px;
+    }
+    .container {
+      margin: 0 auto;
+      padding: 20px;
+      max-width: 800px;
+    }
+    .header, .section-title {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .btn-back {
+      background-color: #007BFF;
+      color: white;
+      border-radius: 50%;
+      padding: 10px;
+      cursor: pointer;
+      border: none;
+      font-size: 25px;
+    }
+    .bill-id {
+      border: 2px solid #007BFF;
+      color: #007BFF;
+      padding: 5px 10px;
+      border-radius: 25px;
+      font-weight: bold;
+      font-size: 14px;
+    }
+    .section-title h1 {
+      color: #007BFF;
+      font-weight: bold;
+    }
+    .form-group {
+      display: flex;
+      gap: 20px;
+    }
+    .form-group input, .form-group textarea {
+      padding: 10px;
+      width: 250px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 14px;
+    }
+    .product-list {
+      display: flex;
+      align-items: flex-start;
+      gap: 20px;
+      margin-bottom: 20px;
+    }
+    .product-image {
+      width: 120px;
+      height: auto;
+      border-radius: 5px;
+    }
+    .product-info {
+      display: flex;
+      flex-direction: column;
+    }
+    .product-name {
+      margin: 0;
+      font-size: 1.2em;
+      font-weight: bold;
+      color: #007BFF;
+    }
+    .product-desc {
+      margin: 5px 0;
+      color: #555;
+    }
+    .product-price, .product-quantity, .product-type {
+      margin: 3px 0;
+    }
+    .totals {
+      margin-top: 20px;
+      display: flex;
+      justify-content: flex-end;
+      flex-direction: column;
+      width: 100%;
+    }
+    .totals .total-row {
+      display: flex;
+      justify-content: space-between;
+      border: 1px solid #007BFF;
+      padding: 10px;
+      margin-bottom: 10px;
+      font-weight: bold;
+    }
+    .totals .final-total {
+      background-color: #007BFF;
+      color: white;
+      padding: 10px;
+    }
+    .head {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 15px;
+      position: relative;
+    }
+    .logo {
+      position: absolute;
+      left: 0;
+    }
+    .head img {
+      max-width: 70px;
+    }
+    .tenant-name {
+      flex-grow: 1;
+      text-align: center;
+      font-size: 20px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <div class="head">
+    <div class="logo">
+      <img src="<%= tenantLogo %>" alt="Tenant Logo">
+    </div>
+    <div class="tenant-name">
+      <%= tenantName %>
+    </div>
+  </div>
+  <% bills.forEach(function(bill) { %>
+    <div class="header">
+      <p class="bill-id">Bill ID: <%= bill._id %></p>
+    </div>
+
+    <div class="section-title">
+      <h1>Customer Details</h1>
+    </div>
+    <div class="form-group">
+      <input type="text" placeholder="Customer Name" value="<%= bill.customerName %>" disabled>
+      <input type="number" placeholder="Contact" value="<%= bill.customerContact %>" disabled>
+      <input type="email" placeholder="Email" value="<%= bill.customerEmail || 'N/A' %>" disabled>
+      <textarea placeholder="Address" disabled><%= bill.customerAddress %></textarea>
+    </div>
+
+    <div class="section-title">
+      <h1>Bill Details</h1>
+    </div>
+    <div class="form-group">
+      <input type="text" placeholder="Payment Method" value="<%= bill.paymentMethod %>" disabled>
+      <input type="text" placeholder="Service" value="<%= bill.service %>" disabled>
+      <% if (bill.service === 'Fine Dining') { %>
+        <input type="text" placeholder="Table Number" value="<%= bill.tableNumber %>" disabled>
+        <input type="text" placeholder="Waiter" value="<%= bill.waiter %>" disabled>
+      <% } %>
+    </div>
+
+    <div class="section-title">
+      <h1>Product Details</h1>
+    </div>
+    <% bill.products.forEach(function(product) { %>
+      <div class="product-list">
+        <% if (product.image) { %>
+          <img class="product-image" src="<%= product.image %>" alt="Product Image">
+        <% } else { %>
+          <p>No image uploaded</p>
+        <% } %>
+        <div class="product-info">
+          <h3 class="product-name"><%= product.productName %></h3>
+          <p class="product-desc"><%= product.productDesc %></p>
+          <p class="product-price">₹ <%= product.price %></p>
+          <p class="product-quantity">Qty: <%= product.quantity %></p>
+          <p class="product-type">Type: <%= product.type %></p>
+        </div>
+      </div>
+    <% }); %>
+
+    <div class="totals">
+      <div class="total-row">
+        <p>Sub-Total:</p>
+        <p>₹ <%= bill.subTotal %></p>
+      </div>
+      <div class="total-row">
+        <p>CGST (<%= bill.cgstPercentage %>%):</p>
+        <p>₹ <%= bill.cgstAmount %></p>
+      </div>
+      <div class="total-row">
+        <p>SGST (<%= bill.sgstPercentage %>%):</p>
+        <p>₹ <%= bill.sgstAmount %></p>
+      </div>
+      <div class="total-row">
+        <p>Round off:</p>
+        <p><%= bill.isRoundPositive ? '+' : '-' %> ₹ <%= bill.roundOff %></p>
+      </div>
+      <div class="total-row final-total">
+        <p>Total:</p>
+        <p>₹ <%= bill.totalAmount %></p>
+      </div>
+    </div>
+  <% }); %>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,58 @@
+/* General PDF layout */
+.pdf-container {
+    margin: 20px;
+    font-family: Arial, sans-serif;
+    color: #333;
+  }
+  
+  h1 {
+    text-align: center;
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+  
+  /* Table styles */
+  .bill-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+  }
+  
+  .bill-table th, .bill-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+  }
+  
+  .bill-table th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+  }
+  
+  .bill-table td {
+    background-color: #fff;
+  }
+  
+  .bill-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+  }
+  
+  .bill-table tr:hover {
+    background-color: #f1f1f1;
+  }
+  
+  .bill-table th, .bill-table td {
+    padding: 12px 15px;
+    text-align: center;
+    font-size: 14px;
+  }
+  
+  .bill-table th {
+    background-color: #4CAF50;
+    color: white;
+  }
+  
+  .bill-table td {
+    word-break: break-word;
+  }
+  

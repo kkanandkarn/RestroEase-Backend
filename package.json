@@ -1,0 +1,36 @@
+{
+  "name": "restaurant_erp_backend",
+  "version": "1.0.0",
+  "main": "app.js",
+  "scripts": {
+    "start:dev": "nodemon app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Anand Kumar Karn",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "bcrypt": "^5.1.1",
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.20.3",
+    "cashfree-pg": "^4.2.3",
+    "cashfree-sdk": "^0.1.1",
+    "cloudinary": "^2.5.1",
+    "cors": "^2.8.5",
+    "crypto": "^1.0.1",
+    "dotenv": "^16.4.5",
+    "ejs": "^3.1.10",
+    "express": "^4.21.0",
+    "firebase-admin": "^13.0.1",
+    "joi": "^17.13.3",
+    "jsonwebtoken": "^9.0.2",
+    "moment-timezone": "^0.5.46",
+    "mongoose": "^8.7.0",
+    "morgan": "^1.10.0",
+    "nodemailer": "^6.9.16",
+    "nodemon": "^3.1.7",
+    "puppeteer": "^23.7.0",
+    "socket.io": "^4.8.1",
+    "xlsx": "^0.18.5"
+  }
+}
